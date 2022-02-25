@@ -5,21 +5,10 @@
 @endsection
 
 @section('content')
-    <div class="container">
-        <table class="table table-bordered">
-            <tbody>
-                @foreach ($users as $user)
-                <tr>
-                    <td>{{$user->id}}</td>
-                    <td>{{$user->name}}</td>
-                    <td>{{$user->email}}</td>
-                    <a href="{{route ('enterAsUser', $user->id}}">
-                        Войти
-                    </a>
-                </tr>
-            </tbody>
+    <a href="{{ route('adminUsers')}}">Список пользователей</a>
+    <a href="{{ route('adminProducts')}}">Список продуктов</a>
+    <a href="{{ route('adminCategories')}}">Список категорий</a>
 
-        </table>
         
         <form method="post" action="{{route('ExportCategories')}}">
         @csrf

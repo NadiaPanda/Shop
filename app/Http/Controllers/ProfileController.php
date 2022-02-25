@@ -14,7 +14,7 @@ class ProfileController extends Controller
     {        
         if (!Auth::user()) 
             return redirect()->route('home');
-        if (Auth::user()->isAdmin() || $user->id == Auth::user()->id)
+        if (Auth::user()->isAdmin()|| $user->id == Auth::user()->id)
             return view('profile', compact('user'));
 
         return redirect()->route('home');

@@ -1,11 +1,11 @@
 <?php
 
 use App\Models\Category;
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,59 +18,15 @@ use Illuminate\Support\Facades\DB;
 |
 */
 
+Artisan::command('orderTest',function () {
 
+    $order = Order::first();
 
-Artisan::command('queryBuilder', function()
-{
-   DB::table('categories as c')
-
-        ->select(
-            'c.name',
-            'c.description'
-        )
-        ->where('name', 'Процессоры')
-        ->first();
-    DB::table('categories as c')
-   ->select(
-       'c.name',
-       DB::raw('count(p.id) as product_quantity')
-       )
-   ->join('products as p', 'c.id', 'p.category_id')
-   ->groupBy('c.id')
-   ->get();
-   
-   DB::table('categories')
-   ->orderBy('id')
-   ->chunk(2, function($categories) 
-   {
-        dump($categories->count());
-   });
-});
-
-Artisan::command('updateNewCategory', function()
-{
-    Auth::loginUsingId(1);
-    $procs = Category::where('name', 'Процессоры')->first();
-    $procs->description = 'Intel лучше';
-    $procs->save(); 
-});
-
-Artisan::command('deleteNewCategory', function()
-{
-    Auth::loginUsingId(1); 
-    Category::find(4)->delete();
-});
-
-    Artisan::command('createNewCategory', function() {
-
-        Auth::loginUsingId(1);    
-        
-        $procs =new Category();
-        $procs->name = 'Видеокарты2';
-        $procs->description = 'Описание видеокарт1';
-        $procs->picture = '2.jpg';
-        $procs->save();
+    $order->products->each(function ($product) {
+        dump ($product->pivot->quantity);
     });
+
+});
 
 Artisan::command('importCategoriesFromFile', function () {
     
@@ -211,9 +167,15 @@ Artisan::command('updateCategory', function () {
 });
 
 Artisan::command('deleteCategory', function () {
-    //$category = Category::find(1);
-    //$category->delete();
-   Category::whereNotNull('id')->delete();
+    // $category = Category::find(1);
+    // $category->delete();
+    Category::whereNotNull('id')->delete();
+});
+
+Artisan::command('deleteNewCategory', function()
+{
+    Auth::loginUsingId(1); 
+    Category::find(3)->delete();
 });
 
 Artisan::command('createCategory', function () {
@@ -233,7 +195,7 @@ Artisan::command('inspire', function () {
     })->pluck('address');
 
     $addresses = $user->addresses()->where('main', 1)->get();
-    dd($addresses);
+    //dd($addresses);
 
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
