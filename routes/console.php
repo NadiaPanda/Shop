@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +18,32 @@ use Illuminate\Support\Facades\Auth;
 | simple approach to interacting with each command's IO methods.
 |
 */
+Artisan::command('queryBuilder', function()
+{
+   DB::table('categories as c')
 
+        ->select(
+            'c.name',
+            'c.description'
+        )
+        ->where('name', 'Процессоры')
+        ->first();
+    DB::table('categories as c')
+   ->select(
+       'c.name',
+       DB::raw('count(p.id) as product_quantity')
+       )
+   ->join('products as p', 'c.id', 'p.category_id')
+   ->groupBy('c.id')
+   ->get();
+   
+   DB::table('categories')
+   ->orderBy('id')
+   ->chunk(2, function($categories) 
+   {
+        dump($categories->count());
+   });
+});
 Artisan::command('orderTest',function () {
 
     $order = Order::first();
@@ -160,23 +186,21 @@ Artisan::command('massCategoriesInsert', function () {
     Category::insert($categories);
 });
 
-Artisan::command('updateCategory', function () {
-    Category::where('id', 2)->update([
-        'name' => 'Процессоры'
-    ]);
+Artisan::command('updateCategory', function()
+{
+    Auth::loginUsingId(1);
+    $procs = Category::where('name', 'Процессоры')->first();
+    $procs->description = 'Intel лучше';
+    $procs->save(); 
 });
 
 Artisan::command('deleteCategory', function () {
-    // $category = Category::find(1);
-    // $category->delete();
-    Category::whereNotNull('id')->delete();
+    Auth::loginUsingId(1);
+    $category = Category::find(6);
+    $category->delete();
+    //Category::whereNotNull('id')->delete();
 });
 
-Artisan::command('deleteNewCategory', function()
-{
-    Auth::loginUsingId(1); 
-    Category::find(3)->delete();
-});
 
 Artisan::command('createCategory', function () {
     $category = new Category([

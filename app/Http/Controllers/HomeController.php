@@ -14,7 +14,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-      
+
     }
 
     /**
@@ -27,10 +27,22 @@ class HomeController extends Controller
         $categories = Category::get();
         return view('home', compact('categories'));
     }
-}
 
-     function category(Category $category)
-    {
+    public function category ($category)
+    {   
         $products = $category->products;
         return view('category', compact('products'));
     }
+
+    public function getProducts (Category $category) 
+    {
+        
+        $products = $category->products;
+    
+        $products->transform(function ($product) {
+        $product->quantity = session("cart.{$product->id}") ?? 0;
+        return $product;
+    });
+        return $products;
+    }
+}
