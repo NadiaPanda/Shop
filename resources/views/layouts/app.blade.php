@@ -65,8 +65,8 @@
                         @else
                             @if (Auth::user()->isAdmin())
                                 <li class="nav-item">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    >Админка
+                                <a class="nav-link" href="{{ route('admin') }}">
+                                    Админка
                                 </a>
                                 </li>
                             @endif

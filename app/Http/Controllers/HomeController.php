@@ -30,8 +30,9 @@ class HomeController extends Controller
 
     public function category ($category)
     {   
-        $products = $category->products;
-        return view('category', compact('products'));
+        
+
+        return view('category', compact('category'));
     }
 
     public function getProducts (Category $category) 
@@ -42,6 +43,7 @@ class HomeController extends Controller
         $products->transform(function ($product) {
         $product->quantity = session("cart.{$product->id}") ?? 0;
         return $product;
+        
     });
         return $products;
     }

@@ -54,7 +54,7 @@ class User extends Authenticatable
 
     public function isAdmin ()
     {
-        return $this->roles->pluck('name')->contains(env('ADMIN-ROLE'));
+        return $this->roles->pluck('name')->contains(env('ADMIN_ROLE'));
     }
  
     public function getMainAddress ()
