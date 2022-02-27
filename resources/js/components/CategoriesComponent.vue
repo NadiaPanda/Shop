@@ -3,23 +3,35 @@
          <h1>{{pageTitle}}</h1>
   
         <div class="row"> 
-         <categories-component 
+         <category-component 
          v-for='category in categories'
          :key="category.id"
          :category="category"
          :route-category="routeCategory"
+         @buttonClicked='buttonClicked'
          >
-        </categories-component>
+        </category-component>
+        </div>
 </div>  
 </template>
 
 <script>
-export default {
-    props: ['test', 'pageTitle', 'categories','routeAdminCategories', 'routeCategory'],
-    mounted () {
-        console.log(this.routeAdminCategories)
+  import CategoryComponent from './CategoryComponent.vue'
+    
+    export default {
+        props: ['pageTitle', 'categories', 'routeAdminCategories', 'routeCategory'],
+        components: {CategoryComponent},
+        methods: {
+            buttonClicked (data) {
+                console.log(`клик в дочернем компоненте (${data})`)
+            }
+        },
+        mounted () {
+            let quantity = cartProductsQuantity.textContent.split('(')[1]
+            quantity = quantity.split(')')[0]
+            localStorage.cartProductsQuantity = quantity
+        }
     }
-}
 
 
 </script>

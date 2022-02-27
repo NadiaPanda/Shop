@@ -12,8 +12,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use OCILob;
-use Ramsey\Uuid\Codec\OrderedTimeCodec;
 
 class CartController extends Controller
 {
@@ -38,7 +36,7 @@ class CartController extends Controller
         $cart = session('cart') ?? [];
 
         if (!isset($cart[$productId]))
-            return back();
+            return 0;
         
         $quantity = $cart[$productId];
         if ($quantity > 1) {
@@ -48,7 +46,7 @@ class CartController extends Controller
         }
 
         session()->put('cart', $cart);
-        return back();
+        return $cart[$productId] ?? 0;
     }
 
     public function addToCart ()
@@ -64,7 +62,7 @@ class CartController extends Controller
         }
 
         session()->put('cart', $cart);
-        return back();
+        return $cart[$productId];
     }
 
     public function createOrder ()
@@ -73,7 +71,7 @@ class CartController extends Controller
             'name' => 'required',
             'email' => 'required|email',
             'address' => 'required',
-            'register_confirmation' => 'accepted'
+            'register_confirmation' => 'accepted|sometimes'
         ]);
 
             DB::transaction(function () {
@@ -114,8 +112,9 @@ class CartController extends Controller
                 $data = [
                     'products' => $order->products,
                     'name' => $user->name,
-                    'password' => $password
+                    'password' => $password ?? ''
                 ];
+                
                 Mail::to($user->email)->send(new OrderCreated($data));
             });        
 
