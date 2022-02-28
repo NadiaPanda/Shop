@@ -32,7 +32,8 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
     });
 });
 
-Route::post('/ExportCategories', [AdminController::class, 'ExportCategories'])->name('ExportCategories'); 
+Route::post('/ExportCategories', [AdminController::class, 'ExportCategories'])->name('ExportCategories');
+
 
 Route::prefix('cart')->group(function () {
     Route::get('/', [CartController::class, 'cart'])->name('cart');
@@ -45,5 +46,8 @@ Route::get('/category/{category}', [HomeController::class, 'category'])->name('c
 Route::get('/category/{category}/getProducts', [HomeController::class, 'getProducts']);
 Route::get('/profile/{user}', [ProfileController::class, 'profile'])->name('profile');
 Route::post('/profile/save', [ProfileController::class, 'save'])->name('saveProfile');
+
+Route::post('/ExportProducts', [AdminController::class, 'ExportProducts'])->name('ExportProducts'); 
+
 
 Auth::routes();

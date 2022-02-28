@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\ExportCategories;
+use App\Jobs\ExportProducts;
+use App\Models\Category;
+use App\Models\Product;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -20,7 +23,7 @@ class AdminController extends Controller
     public function users ()
     {
 
-        $users = User::paginate(3);
+        $users = User::paginate(4);
         $roles = Role::get();
 
         $data = [
@@ -32,13 +35,22 @@ class AdminController extends Controller
     }
 
     public function products ()
-    {
-        return view('admin.products');
+    { $products= Product::get();
+        $data = [
+        'title' => 'Список продуктов',
+        'products' => $products,
+    ];
+        return view('admin.products', $data);
     }
 
     public function categories ()
-    {
-        return view('admin.categories');
+    { $categories = Category::get();
+        $data = [
+            'title' => 'Список категорий',
+            'categories' => $categories,
+
+        ];
+        return view('admin.categories', $data);
     }
 
     public function enterAsUser ($id)
@@ -73,5 +85,12 @@ class AdminController extends Controller
 public function ExportCategories()
 {
     ExportCategories::dispatch();
-}    
+}  
+
+public function ExportProducts() 
+{
+    ExportProducts::dispatch();
+    
+}
+
 }

@@ -67,8 +67,9 @@
             <label class="form-label">Список адресов</label>
             @forelse ($user->addresses as $address)
                 <br>
-                <label for="main_address{{$address->id}}">{{$address->address}}</label>
                 <input @if ($address->main) checked @endif id="main_address{{$address->id}}" name='main_address' type="radio" value="{{$address->id}}">
+                <label for="main_address{{$address->id}}">{{$address->address}}</label>
+                
             @empty
                 <em>Ку-ку)</em>
             @endforelse
