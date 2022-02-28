@@ -64,20 +64,32 @@
             <input type="password" name="password_confirmation" class="form-control">
         </div>
         <div class="mb-3">
-            <label class="form-label">Список адресов</label>
-            @forelse ($user->addresses as $address)
-                <br>
-                <input @if ($address->main) checked @endif id="main_address{{$address->id}}" name='main_address' type="radio" value="{{$address->id}}">
-                <label for="main_address{{$address->id}}">{{$address->address}}</label>
-                
-            @empty
-                <em>Ку-ку)</em>
-            @endforelse
+            <label class="form-label">Список адресов:</label>
+            <ul>
+                @forelse ($user->addresses as $address)
+                    <input class="form-check-input" @if ($address->main) checked @endif id="{{ $address->id }}" name="main_address" type="radio" value="{{ $address->id }}">
+                    <label for="{{ $address->id }}">{{$address->address}}</label>
+                    <br>
+                @empty 
+                    <em>- Адреса не указаны -</em>
+                @endforelse
+            </ul>
         </div>
         <div class="mb-3">
             <label class="form-label">Новый адрес</label>
-            <input name="new_address" class="form-control">
+            <input name="new_address" class="form-control" placeholder="Введите новый адрес">
+                <div class="form-check mt-1">
+                    <input name="set_main_address" class="form-check-input" type="checkbox" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                    Сделать основным
+                    </label>
+                </div>
         </div>
-        <button type="submit" class="btn btn-primary">Сохранить</button>
+        <button type="submit" class="btn btn-outline-dark ">Сохранить</button>
     </form>
+    <div class="d-grid gap-2 col-6 mx-auto">
+    <a role="button" class="btn btn-outline-dark btn-lg" aria-current="page" href="{{ route('orders', Auth::user()->id) }}">
+        <strong>Мои заказы</strong>
+    </a>
+    </div>
 @endsection

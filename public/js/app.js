@@ -29189,7 +29189,7 @@ var render = function () {
                   _c(
                     "button",
                     {
-                      staticClass: "btn btn-danger",
+                      staticClass: "btn btn-outline-dark",
                       on: {
                         click: function ($event) {
                           return _vm.cartAction("removeFrom", product.id)
@@ -29206,7 +29206,7 @@ var render = function () {
                   _c(
                     "button",
                     {
-                      staticClass: "btn btn-success",
+                      staticClass: "btn btn-outline-dark",
                       on: {
                         click: function ($event) {
                           return _vm.cartAction("addTo", product.id)
@@ -29339,7 +29339,7 @@ var render = function () {
         ? _c(
             "button",
             {
-              staticClass: "btn btn-success",
+              staticClass: "btn btn-outline-dark",
               attrs: { type: "button", disabled: "" },
             },
             [
@@ -29353,7 +29353,7 @@ var render = function () {
         : _c(
             "button",
             {
-              staticClass: "btn btn-success",
+              staticClass: "btn btn-outline-dark",
               attrs: { type: "submit" },
               on: { click: _vm.createOrder },
             },
@@ -29482,7 +29482,7 @@ var render = function () {
         _c(
           "a",
           {
-            staticClass: "btn btn-primary",
+            staticClass: "btn btn-outline-dark",
             attrs: { href: _vm.routeCategory + "/" + _vm.category.id },
           },
           [_vm._v("Перейти")]

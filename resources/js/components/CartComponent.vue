@@ -19,9 +19,9 @@
                     <td>{{product.name}}</td>
                     <td>{{product.price}}</td>
                     <td class="product-buttons">
-                        <button @click="cartAction('removeFrom', product.id)" class="btn btn-danger">-</button>
+                        <button @click="cartAction('removeFrom', product.id)" class="btn btn-outline-dark">-</button>
                         {{ product.quantity }}
-                        <button @click="cartAction('addTo', product.id)" class="btn btn-success">+</button>
+                        <button @click="cartAction('addTo', product.id)" class="btn btn-outline-dark">+</button>
                     </td>
                     <td>
                         {{ Number(product.price * product.quantity).toFixed(2) }}
@@ -54,11 +54,11 @@
             <br>
         </template>
 
-        <button v-if='loading' class="btn btn-success" type="button" disabled>
+        <button v-if='loading' class="btn btn-outline-dark" type="button" disabled>
             <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
             Оформляем заказ...
         </button>
-        <button v-else @click='createOrder' type="submit" class="btn btn-success">Оформить заказ</button>
+        <button v-else @click='createOrder' type="submit" class="btn btn-outline-dark">Оформить заказ</button>
 
     </div>
 </template>

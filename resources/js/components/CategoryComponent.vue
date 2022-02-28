@@ -9,7 +9,7 @@
                 <p class="card-text">
                     {{ category.description }}
                 </p>
-                <a :href="`${routeCategory}/${category.id}`" class="btn btn-primary">Перейти</a>
+                <a :href="`${routeCategory}/${category.id}`" class="btn btn-outline-dark">Перейти</a>
 
                 <button @click='buttonClicked' class="btn btn-link">CLICK</button>
             </div>

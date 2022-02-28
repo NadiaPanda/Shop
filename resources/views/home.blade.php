@@ -3,7 +3,7 @@
 @section('content')
 
 @auth
-Вы вошли!
+Вы авторизованы!
 @endauth
 
 <categories-component

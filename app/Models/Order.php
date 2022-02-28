@@ -16,11 +16,18 @@ class Order extends Model
 
     public function products ()
     {
-        return $this->belongsToMany(Product::class)
-                ->withPivot([
-                    'price',
-                    'quantity'
-                ])
-                ->withTimestamps();
+        return $this->belongsToMany(Product::class) 
+                    ->withPivot([
+                        'price',
+                        'quantity'
+                        ])
+                    ->withTimestamps(); 
+    }
+
+    public function getAddress ($addressId)
+    {
+        $address = Address::find($addressId)->address;
+
+        return  $address;
     }
 }
