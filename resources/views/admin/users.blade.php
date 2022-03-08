@@ -42,7 +42,7 @@
         <h3>Добавить новую роль</h3>
         @csrf
         <input class="form-control mb-2" name='name'>
-        <button class="btn btn-success" type="submit">Сохранить</button>
+        <button class="btn btn-outline-dark" type="submit">Сохранить</button>
     </form>
 
     <form method="post" action="{{route('addRoleToUser')}}" class="mb-4">
@@ -60,7 +60,7 @@
                 <option value="{{$role->id}}">{{$role->name}}</option>
             @endforeach
         </select>
-        <button class="btn btn-success" type="submit">Сохранить</button>
+        <button class="btn btn-outline-dark" type="submit">Сохранить</button>
     </form>
 
     <h1>

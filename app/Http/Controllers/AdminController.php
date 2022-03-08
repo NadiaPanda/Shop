@@ -26,7 +26,7 @@ class AdminController extends Controller
     public function users ()
     {
 
-        $users = User::paginate(4);
+        $users = User::paginate(8);
         $roles = Role::get();
 
         $data = [
@@ -118,20 +118,27 @@ public function ExportProducts()
         return back();
     
 }
-public function ImportCategories (Request $request) 
-{
-    $request->validate([         
-        'fileImport' => 'required|file|mimes:csv,txt', 
-     ]);     
+public function ImportCategories (Request $request) {
+        $input = request()->all();
+        $importFile = $input['importFile'] ?? null;
+      //dd($importFile);
+        if ($importFile) {
+            
+            $mimeType = $request->file('importFile')->getMimeType();
+            $type = explode('/', $mimeType);
+            
+            if ($type[0] == 'text') {
+                $ext = $importFile->getClientOriginalExtension();
+                $fileName = "newCategories." . $ext;
+                $importFile->storeAs('public/categories', $fileName);
 
-     $file=$request->file('fileImport');
-     $filename = $file->getClientOriginalName();    
-     $fileall=$file->storeAs('public/categories', $filename); 
-     $tpm_file = $_SERVER['DOCUMENT_ROOT'] . '\\storage\categories\\'.$filename;
-     $this->dispatch(new ImportCategories($tpm_file));  
-     session()->flash('startImportCategories');
-     return back();
-}
+                ImportCategories::dispatch();
+                return back();
+            }
+        }
+    }
+        
+                    
 public function addCategory ()
     {
       request()->validate([
@@ -191,20 +198,27 @@ public function addCategory ()
             'price' => $price,
             'category_id' => $category_id,
         ]);
-        session()->flash('productCreate');//показывает ключ один раз и удаляется
+        session()->flash('productCreate');
         return back();
       }
-    public function ImportProducts (Request $request)
-    {
-        $request->validate([         
-            'fileImport' => 'required|file|mimes:csv,txt', 
-         ]);
-         $file=$request->file('fileImport');
-         $filename = $file->getClientOriginalName();    
-       $fileall=$file->storeAs('public/products', $filename); 
-         $tpm_file = $_SERVER['DOCUMENT_ROOT'] . '\\storage\products\\'.$filename;
-         $this->dispatch(new ImportProducts($tpm_file));  
-          session()->flash('startImportProducts');
-          return back();
+public function importProducts (Request $request)
+      {
+          $input = request()->all();
+          $importFile = $input['importFile'];
+          //dd($importFile);
+          if ($importFile) {
+             
+              $mimeType = $request->file('importFile')->getMimeType();
+              $type = explode('/', $mimeType);
+              
+              if ($type[0] == 'text') {
+                  $ext = $importFile->getClientOriginalExtension();
+                  $fileName = "importProducts." . $ext;
+                  $importFile->storeAs('public/products', $fileName);
+  
+                  ImportProducts::dispatch();
+                  return back();
+    }
 }
+      }   
 }

@@ -79,7 +79,7 @@
         
         <div class="mb-3 "> 
         <label class="form-label"><h4>Загрузить список продуктов</h4></label>               
-                <input type="file"  name="fileImport" class="form-control">
+                <input type="file"  name="importFile" class="form-control">
             </div>
             <button type="submit" class="btn btn-outline-dark">Загрузка продуктов</button>
         </form> 

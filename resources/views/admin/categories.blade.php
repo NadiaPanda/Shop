@@ -72,15 +72,17 @@
       </div>
   </div>
   <br>
+  
   <div class="col-6 ">
   <h3 class="card-title">Загрузить новую категорию</h3>
        <form method="post" action="{{ route('ImportCategories')}}" class="mb-4" enctype="multipart/form-data">
         @csrf 
         <div class="mb-3 ">                
-                <input type="file"  name="fileImport" class="form-control">
+                <input type="file"  name="importFile" class="form-control">
             </div>
             <button type="submit" class="btn btn-outline-dark">Загрузка категории</button>  
         </form> 
     </div> 
-    </div>
+    
+</div>
 @endsection

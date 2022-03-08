@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
 
 class ImportProducts implements ShouldQueue
 {
@@ -19,9 +20,9 @@ class ImportProducts implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(string $filePath)
+    public function __construct()
     {
-       $this->filePath = $filePath;
+        //
     }
 
     /**
@@ -31,24 +32,27 @@ class ImportProducts implements ShouldQueue
      */
     public function handle()
     {
-        $file = fopen($this->filePath, 'r');     
-
+        $path =Storage::path('products/importProducts.csv');
+        $file = fopen($path, 'r');
+ 
         $i = 0;
         $insert = [];
         while ($row = fgetcsv($file, 1000, ';')) {
+        
             if ($i++ == 0) {
-                $bom = pack('H*','EFBBBF');
-                $row = preg_replace("/^$bom/", '', $row);
+                $bom = pack('H*', 'EFBBBF'); 
+                $row = preg_replace("/^$bom/", '', $row); 
+
                 $columns = $row;
                 continue;
             }
-    
+
             $data = array_combine($columns, $row);
             $data['created_at'] = date('Y-m-d H:i:s');
-            $data['updated_at'] = date('Y-m-d H:i:s');       
-            $insert[] = $data;                
+            $data['updated_at'] = date('Y-m-d H:i:s');
+            $insert [] = $data;
         }
-        
-        Product::insert($insert);
+
+        Product::insert($insert); 
     }
 }

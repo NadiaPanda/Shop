@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
 
 class ImportCategories implements ShouldQueue
 {
@@ -19,9 +20,9 @@ class ImportCategories implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(string $filePath)
+    public function __construct()
     {
-       $this->filePath = $filePath;
+        //
     }
 
     /**
@@ -31,7 +32,8 @@ class ImportCategories implements ShouldQueue
      */
     public function handle()
     {
-        $file = fopen($this->filePath, 'r'); 
+        $path = Storage::path('categories/newCategories.csv');
+        $file = fopen($path, 'r');
  
         $i = 0;
         $insert = [];
@@ -51,6 +53,7 @@ class ImportCategories implements ShouldQueue
             $insert [] = $data;
         }
 
-        Category::insert($insert); 
+        Category::insert($data); 
     }
 }
+    
